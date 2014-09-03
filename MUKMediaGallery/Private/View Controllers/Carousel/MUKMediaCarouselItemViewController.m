@@ -133,7 +133,7 @@ static CGFloat const kCaptionLabelTopPadding = 0.0f;
 
 - (UIActivityIndicatorView *)newCenteredActivityIndicatorViewInSuperview:(UIView *)superview
 {
-    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [superview addSubview:activityIndicatorView];
     
