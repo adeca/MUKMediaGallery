@@ -4,12 +4,12 @@ Pod::Spec.new do |s|
   s.summary   = 'A simple iOS library built to provide you a component which replicates Photos app functionalities.'
   s.license   = { :type => 'BSD 3-Clause', :file => 'LICENSE' }
   s.platform  = :ios, '6.0'
-  s.homepage 	= 'https://github.com/muccy/MUKMediaGallery'
+  s.homepage 	= 'https://github.com/adeca/MUKMediaGallery'
   s.author = {
     'Marco Muccinelli' => 'muccymac@gmail.com'
   }
   s.source = {
-    :git => 'https://github.com/muccy/MUKMediaGallery.git',
+    :git => 'https://github.com/adeca/MUKMediaGallery.git',
     :tag => s.version.to_s
   } 
   s.compiler_flags      = '-Wdocumentation'
