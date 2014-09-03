@@ -912,6 +912,17 @@ static void CommonInitialization(MUKMediaCarouselViewController *viewController)
     return [self newItemViewControllerForMediaAtIndex:itemViewController.mediaIndex + 1];
 }
 
+- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController
+{
+    return [self.carouselDelegate numberOfItemsInCarouselViewController:self];
+}
+
+- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController
+{
+    MUKMediaCarouselItemViewController *itemViewController = [pageViewController.viewControllers firstObject];
+    return itemViewController.mediaIndex;
+}
+
 #pragma mark - <MUKMediaCarouselItemViewControllerDelegate>
 
 - (void)carouselItemViewControllerDidReceiveTap:(MUKMediaCarouselItemViewController *)viewController
