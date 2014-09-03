@@ -19,6 +19,7 @@
 @property (nonatomic) NSMutableIndexSet *loadingImageIndexes, *loadingThumbnailImageIndexes;
 @property (nonatomic) NSMutableDictionary *runningYouTubeExtractors;
 @property (nonatomic) BOOL shouldReloadDataInViewWillAppear;
+@property (nonatomic) BOOL shouldHideBars;
 @property (nonatomic) NSMutableArray *pendingViewControllers;
 @end
 
@@ -795,6 +796,9 @@ static void CommonInitialization(MUKMediaCarouselViewController *viewController)
 }
 
 - (void)setBarsHidden:(BOOL)hidden animated:(BOOL)animated {
+    if (!self.shouldHideBars)
+        return;
+    
     BOOL automaticallyManagesStatusBar = [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     
     if (!automaticallyManagesStatusBar) {
