@@ -2,10 +2,10 @@
 #import "MUKMediaGalleryToolbar.h"
 #import "MUKMediaGalleryUtils.h"
 
-static CGFloat const kCaptionLabelMaxHeight = 80.0f;
-static CGFloat const kCaptionLabelLateralPadding = 8.0f;
-static CGFloat const kCaptionLabelBottomPadding = 5.0f;
-static CGFloat const kCaptionLabelTopPadding = 3.0f;
+static CGFloat const kCaptionLabelMaxHeight = 40.0f;
+static CGFloat const kCaptionLabelLateralPadding = 20.0f;
+static CGFloat const kCaptionLabelBottomPadding = 0.0f;
+static CGFloat const kCaptionLabelTopPadding = 0.0f;
 
 @interface MUKMediaCarouselItemViewController () <UIToolbarDelegate>
 @property (nonatomic, weak, readwrite) UIView *overlayView;
@@ -150,6 +150,7 @@ static CGFloat const kCaptionLabelTopPadding = 3.0f;
     label.textColor = [UIColor whiteColor];
     label.font = [[self class] defaultCaptionLabelFont];
     label.numberOfLines = 0;
+    label.textAlignment = NSTextAlignmentCenter;
     label.backgroundColor = [UIColor clearColor];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     [superview addSubview:label];
@@ -158,7 +159,7 @@ static CGFloat const kCaptionLabelTopPadding = 3.0f;
     NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(padding)-[label]-(padding)-|" options:0 metrics:@{@"padding" : @(kCaptionLabelLateralPadding)} views:viewsDict];
     [superview addConstraints:constraints];
     
-    constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[label(<=maxHeight)]" options:0 metrics:@{ @"maxHeight" : @(kCaptionLabelMaxHeight) } views:viewsDict];
+    constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[label(==maxHeight)]" options:0 metrics:@{ @"maxHeight" : @(kCaptionLabelMaxHeight) } views:viewsDict];
     [superview addConstraints:constraints];
     
     return label;
@@ -166,20 +167,8 @@ static CGFloat const kCaptionLabelTopPadding = 3.0f;
 
 - (UIView *)newBottomAttachedBackgroundViewForCaptionLabel:(UILabel *)label inSuperview:(UIView *)superview
 {
-    UIView *view;
-    if ([MUKMediaGalleryUtils defaultUIParadigm] == MUKMediaGalleryUIParadigmLayered)
-    {
-        // A toolbar gives live blurry effect on iOS 7
-        MUKMediaGalleryToolbar *toolbar = [[MUKMediaGalleryToolbar alloc] initWithFrame:label.frame];
-        toolbar.barStyle = UIBarStyleBlack;
-        toolbar.delegate = self;
-        
-        view = toolbar;
-    }
-    else {
-        view = [[UIView alloc] initWithFrame:label.frame];
-        view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.5f];
-    }
+    UIView *view = [[UIView alloc] initWithFrame:label.frame];
+    view.backgroundColor = [UIColor colorWithWhite:1.0f alpha:1.0f];
     
     view.userInteractionEnabled = NO;
     view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -202,29 +191,29 @@ static CGFloat const kCaptionLabelTopPadding = 3.0f;
     
     // Create all constraints
     if (self.captionLabelTopConstraint == nil) {
-        self.captionLabelTopConstraint = [NSLayoutConstraint constraintWithItem:self.captionLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1.0f constant:kCaptionLabelTopPadding];
-        [self.captionLabel.superview addConstraint:self.captionLabelTopConstraint];
+        self.captionLabelTopConstraint = [NSLayoutConstraint constraintWithItem:self.captionLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1.0f constant:kCaptionLabelTopPadding];
+//        [self.captionLabel.superview addConstraint:self.captionLabelTopConstraint];
     }
     
     if (self.captionBackgroundViewTopConstraint == nil) {
-        self.captionBackgroundViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.captionBackgroundView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1.0f constant:kCaptionLabelTopPadding];
-        [self.captionBackgroundView.superview addConstraint:self.captionBackgroundViewTopConstraint];
+        self.captionBackgroundViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.captionBackgroundView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1.0f constant:kCaptionLabelTopPadding];
+//        [self.captionBackgroundView.superview addConstraint:self.captionBackgroundViewTopConstraint];
     }
     
     if (self.captionLabelBottomConstraint == nil) {
-        self.captionLabelBottomConstraint = [NSLayoutConstraint constraintWithItem:self.captionLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1.0f constant:-kCaptionLabelBottomPadding];
-        [self.captionLabel.superview addConstraint:self.captionLabelBottomConstraint];
+        self.captionLabelBottomConstraint = [NSLayoutConstraint constraintWithItem:self.captionLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1.0f constant:-kCaptionLabelBottomPadding];
+//        [self.captionLabel.superview addConstraint:self.captionLabelBottomConstraint];
     }
     
     if (self.captionBackgroundViewBottomConstraint == nil) {
-        self.captionBackgroundViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.captionBackgroundView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeBottom multiplier:1.0f constant:0.0f];
-        [self.captionBackgroundView.superview addConstraint:self.captionBackgroundViewBottomConstraint];
+        self.captionBackgroundViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.captionBackgroundView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.0f];
+//        [self.captionBackgroundView.superview addConstraint:self.captionBackgroundViewBottomConstraint];
     }
     
     // Change constraints
     NSArray *unusedConstraints, *usedConstraints;
     
-    if (hidden) {
+    if (!hidden) {
         usedConstraints = @[ self.captionLabelTopConstraint, self.captionBackgroundViewTopConstraint ];
         unusedConstraints = @[ self.captionLabelBottomConstraint, self.captionBackgroundViewBottomConstraint ];
     }
