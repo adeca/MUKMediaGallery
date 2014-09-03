@@ -20,4 +20,15 @@
     self.caption = [MUK stringRepresentationOfTimeInterval:interval];
 }
 
+- (void)setCaption:(NSString *)caption {
+    _caption = caption;
+    
+    self.attributedCaption = nil;
+}
+
+- (BOOL)hasCaption
+{
+    return (self.attributedCaption.length > 0 || self.caption.length > 0);
+}
+
 @end

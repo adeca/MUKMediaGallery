@@ -495,9 +495,10 @@ static void CommonInitialization(MUKMediaThumbnailsViewController *viewControlle
         return nil;
     }];
     
-    cell.bottomView.hidden = (attributes == nil || (attributes.kind == MUKMediaKindImage && [attributes.caption length] == 0));
+    cell.bottomView.hidden = (attributes == nil || (attributes.kind == MUKMediaKindImage && !attributes.hasCaption));
     cell.bottomIconImageView.image = [self thumbnailCellBottomViewIconForMediaAttributes:attributes];
     cell.captionLabel.text = attributes.caption;
+    cell.captionLabel.attributedText = attributes.attributedCaption;
 }
 
 - (UIImage *)thumbnailCellBottomViewIconForMediaAttributes:(MUKMediaAttributes *)attributes

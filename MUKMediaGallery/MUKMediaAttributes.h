@@ -26,6 +26,9 @@ typedef NS_ENUM(NSInteger, MUKMediaKind) {
  an image.
  */
 @property (nonatomic, copy) NSString *caption;
+@property (nonatomic, copy) NSAttributedString *attributedCaption;
+
+- (BOOL)hasCaption;
 
 /**
  Default initializer.

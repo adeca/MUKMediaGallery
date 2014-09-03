@@ -196,7 +196,9 @@ static void CommonInitialization(MUKMediaCarouselViewController *viewController)
     viewController.view.backgroundColor = self.view.backgroundColor;
     
     viewController.captionLabel.text = attributes.caption;
-    if ([attributes.caption length] && ![self areBarsHidden]) {
+    viewController.captionLabel.attributedText = attributes.attributedCaption;
+    
+    if (attributes.hasCaption && ![self areBarsHidden]) {
         [viewController setCaptionHidden:NO animated:NO completion:nil];
     }
     else {
@@ -818,7 +820,7 @@ static void CommonInitialization(MUKMediaCarouselViewController *viewController)
     
     for (MUKMediaCarouselItemViewController *viewController in self.viewControllers)
     {
-        if (hidden || (!hidden && [viewController.captionLabel.text length] > 0))
+        if (hidden || [viewController.captionLabel.text length] > 0 || [viewController.captionLabel.attributedText length] > 0)
         {
             [viewController setCaptionHidden:hidden animated:animated completion:nil];
         }
