@@ -24,13 +24,7 @@
         case MUKMediaImageKindFullSize: {
             // Create scroll view if needed
             if (self.imageScrollView == nil) {
-                CGRect frame = self.view.bounds;
-                
-                UILabel *captionLabel = self.captionLabel;
-                frame.origin.y += captionLabel.frame.size.height;
-                frame.size.height -= captionLabel.frame.size.height;
-                
-                MUKMediaImageScrollView *imageScrollView = [[MUKMediaImageScrollView alloc] initWithFrame:frame];
+                MUKMediaImageScrollView *imageScrollView = [[MUKMediaImageScrollView alloc] initWithFrame:self.view.bounds];
                 imageScrollView.imageDelegate = self;
                 imageScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
                 [self.view insertSubview:imageScrollView belowSubview:self.overlayView];
